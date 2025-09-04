@@ -1,0 +1,51 @@
+# Robots.txt para AppFiNova.com
+# Este arquivo orienta os crawlers sobre como indexar o site
+
+User-agent: *
+Allow: /
+
+# Permitir acesso às páginas principais
+Allow: /index.html
+Allow: /login.html
+Allow: /dashboard.html
+Allow: /market-tracker.html
+Allow: /stock-ranking.html
+Allow: /analysis.html
+Allow: /community.html
+Allow: /profile.html
+Allow: /view-profile.html
+Allow: /configuracoes.html
+Allow: /relatório-tarifaço.html
+
+# Permitir acesso a arquivos estáticos
+Allow: /css/
+Allow: /js/
+Allow: /Images/
+
+# Bloquear arquivos sensíveis ou desnecessários
+Disallow: /firebase-config.js
+Disallow: /data/
+Disallow: *.csv
+Disallow: *.pdf
+Disallow: /migrate.html
+Disallow: /confirmar-email.html
+
+# User-agents específicos para os principais buscadores
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+# Localização do sitemap
+Sitemap: https://appfinova.com/sitemap.xml
+
+# Crawl-delay para evitar sobrecarga do servidor
+Crawl-delay: 1
+
