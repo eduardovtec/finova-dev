@@ -1,30 +1,3 @@
-// Importações do Firebase
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-import { initializeApp, getApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-
-// Configuração do Firebase
-const firebaseConfig = {
-    apiKey: "AIzaSyBO4CP72fLukRb7uoJYvBZcPwkWX2SDStI",
-    authDomain: "finova-79ba8.firebaseapp.com",
-    databaseURL: "https://finova-79ba8-default-rtdb.firebaseio.com",
-    projectId: "finova-79ba8",
-    storageBucket: "finova-79ba8.firebasestorage.app",
-    messagingSenderId: "548738701228",
-    appId: "1:548738701228:web:208157d42335aab9070c09",
-    measurementId: "G-2M58GXVBHC"
-};
-
-// Inicialização do Firebase
-let app;
-try {
-    app = getApp();
-} catch (e) {
-    app = initializeApp(firebaseConfig);
-}
-
-const auth = getAuth(app);
-const db = getFirestore(app);
 
 // Elementos do DOM
 let userMenuTrigger;
