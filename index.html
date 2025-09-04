@@ -552,16 +552,60 @@
     <header>
         <nav class="navbar">
             <div class="navbar-left">
-                
+                <button class="toggle-drawer" id="toggleDrawer" aria-label="Abrir painel de controle">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <div class="logo">
                     <a href="dashboard.html">
                         <img src="Images/Logo.png" alt="Finova Logo">
                     </a>
                 </div>
             </div>
-            
+            <div class="user-menu">
+                <div class="user-menu-trigger" id="userMenuTrigger">
+                    <img id="navProfilePhoto" src="https://ui-avatars.com/api/?name=Usuário" alt="Perfil" style="background-color: #f0f0f0; border-radius: 50%;">
+                    <span id="userEmailDisplay">Usuário</span>
+                    <i class="fas fa-chevron-down" style="margin-left: 10px;"></i>
+                </div>
+                <div class="user-menu-content" id="userMenuContent">
+                    <a href="profile.html" class="user-menu-item">
+                        <i class="fas fa-user"></i> Perfil
+                    </a>
+                    <a href="configuracoes.html" class="user-menu-item">
+                        <i class="fas fa-cog"></i> Configurações
+                    </a>
+                    <div class="user-menu-separator"></div>
+                    <a href="#" class="user-menu-item" id="logoutButton">
+                        <i class="fas fa-sign-out-alt"></i> Sair
+                    </a>
+                </div>
+            </div>
         </nav>
     </header>
+    <!-- Drawer lateral -->
+    <div class="drawer" id="drawer">
+        <div class="drawer-header">
+            <button class="close-drawer" id="closeDrawer" aria-label="Fechar painel de controle">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="drawer-menu-items">
+            <a href="dashboard.html" class="drawer-menu-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a href="market-tracker.html" class="drawer-menu-item active"><i class="fas fa-chart-line"></i> Rastreador de Mercado</a>
+            <a href="stock-ranking.html" class="drawer-menu-item"><i class="fas fa-trophy"></i> Ranking de Ações</a>
+            <a href="community.html" class="drawer-menu-item"><i class="fas fa-users"></i> Comunidade</a>
+            <a href="analysis.html" class="drawer-menu-item"><i class="fas fa-file-alt"></i> Análises</a>
+        </div>
+        <div class="drawer-social">
+            <a href="configuracoes.html" title="Configurações"><i class="fas fa-cog"></i></a>
+            <a href="https://www.linkedin.com/company/finovaoficial/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="https://www.instagram.com/finovaofc/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://x.com/finovaofc" target="_blank" title="X (Twitter)"><span class="x-icon">𝕏</span></a>
+            <a href="https://www.youtube.com/@finovaofc" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.tiktok.com/@finovaofc" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+        </div>
+    </div>
+    <div class="drawer-backdrop" id="drawerBackdrop"></div>
     <!-- Conteúdo Principal -->
     <div class="dashboard-container">
         <div class="content-wrapper">
@@ -638,10 +682,68 @@
                 </div>
             </div>
             <!-- Seção de seleção de período para gráfico -->
-            
+            <div id="excel-graph-section" style="margin-bottom: 30px;">
+                <div class="period-header">
+                    <div class="period-title">Evolução do Mercado
+                         <span class="info-icon">
+                            <i class="fas fa-question-circle"></i>
+                            <span class="tooltip-box">O gráfico "Evolução do Mercado" apresenta a trajetória histórica do indicador de Momento de Mercado. Você pode selecionar diferentes períodos (Curtíssimo, Curto, Médio e Longo Prazo) para analisar como o mercado se comportou ao longo do tempo. Isso ajuda a identificar padrões, tendências e ciclos de mercado, auxiliando na tomada de decisões de investimento.</span>
+                        </span>
+                    </div>
+                    <!-- Filtros de Data -->
+                    <div class="date-filters">
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" data-filter="ytd">YTD</button>
+                            <button class="filter-btn" data-filter="1y">1 Ano</button>
+                            <button class="filter-btn" data-filter="3y">3 Anos</button>
+                            <button class="filter-btn" data-filter="all">Todos</button>
+                            <button class="filter-btn" data-filter="custom">Personalizado</button>
+                        </div>
+                        <div class="custom-date-range" id="customDateRange" style="display: none;">
+                            <input type="date" id="startDate" style="margin-right: 10px;">
+                            <input type="date" id="endDate" style="margin-right: 10px;">
+                            <button id="applyCustomFilter" class="apply-btn">Aplicar</button>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <canvas id="chartPeriod"></canvas>
+                    <!-- Gráfico Mobile com Touch Zoom/Pan -->
+                    <div class="mobile-chart-container" style="display: none;">
+                        <canvas id="chartPeriodMobile" style="width: 100%; height: 350px; margin-bottom: 10px; touch-action: none; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);"></canvas>
+                        <div style="text-align: center; font-size: 0.8rem; color: #888; margin-top: 8px; font-style: italic;">
+                            💡 Arraste para navegar • Pinça para zoom • Toque duplo para resetar
+                        </div>
+                    </div>
+                    <div id="lastUpdateLabel" style="text-align: right; margin-top: 8px; font-size: 13px; color: #888;"></div>
+                </div>
+            </div>
             <!-- Seção do gráfico do Ibovespa/S&P 500 -->
             <div class="card" style="margin-bottom: 30px;">
-                
+                <div id="index-graph-section">
+                    <div class="period-header">
+                        <div class="period-title">Evolução do&nbsp;<span id="indexTitle">Ibovespa</span></div>
+                        <!-- Filtros de Data para Ibovespa -->
+                        <div class="date-filters">
+                            <div class="filter-buttons">
+                                <button class="filter-btn-ibov active" data-filter="ytd">YTD</button>
+                                <button class="filter-btn-ibov" data-filter="1y">1 Ano</button>
+                                <button class="filter-btn-ibov" data-filter="3y">3 Anos</button>
+                                <button class="filter-btn-ibov" data-filter="all">Todos</button>
+                                <button class="filter-btn-ibov" data-filter="custom">Personalizado</button>
+                            </div>
+                            <div class="custom-date-range" id="customDateRangeIbov" style="display: none;">
+                                <input type="date" id="startDateIbov" style="margin-right: 10px;">
+                                <input type="date" id="endDateIbov" style="margin-right: 10px;">
+                                <button id="applyCustomFilterIbov" class="apply-btn">Aplicar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <canvas id="chartIndex" style="background: transparent; min-height: 350px; max-height: 420px; margin-top: 15px;"></canvas>
+                        <div id="lastUpdateLabelIndex" style="text-align: right; margin-top: 8px; font-size: 13px; color: #888;"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
