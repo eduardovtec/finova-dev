@@ -1,0 +1,207 @@
+/* Estilos para o modal de gráfico em tela cheia */
+.modal-full-chart {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal-full-chart.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+}
+
+.modal-full-chart .modal-content {
+    position: relative;
+    width: 90%;
+    max-width: 800px;
+    height: 90vh;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.modal-full-chart .chart-container {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-full-chart canvas {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: calc(90vh - 40px);
+}
+
+.modal-full-chart .btn-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 1001;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+}
+
+.modal-full-chart .btn-close:hover {
+    background: white;
+    transform: scale(1.1);
+}
+
+.modal-full-chart .modal-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-full-chart .modal-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+/* Ajustes para orientação landscape em dispositivos móveis */
+@media screen and (max-width: 768px) and (orientation: landscape) {
+    .modal-full-chart .modal-content {
+        width: 95%;
+        height: 95vh;
+    }
+    
+    .modal-full-chart canvas {
+        max-height: calc(95vh - 40px);
+    }
+}
+
+/* Ajustes para dispositivos móveis em modo retrato */
+@media screen and (max-width: 768px) and (orientation: portrait) {
+    .modal-full-chart .modal-content {
+        width: 95%;
+        height: 95vh;
+    }
+    
+    .modal-full-chart canvas {
+        max-height: calc(95vh - 40px);
+    }
+}
+
+/* Estilos para o gráfico mobile */
+.mobile-chart-container {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: auto;
+    padding-bottom: 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+}
+
+.mobile-chart-container::-webkit-scrollbar {
+    height: 6px;
+}
+
+.mobile-chart-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.mobile-chart-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+.mobile-chart-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+#chartPeriodPreviewMobile {
+    display: block;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin: 0 auto;
+    width: 300px;
+    height: 300px;
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    #chartPeriod {
+        display: none !important;
+    }
+    .mobile-chart-container {
+        display: flex !important;
+        width: 100%;
+        max-width: 100vw;
+        overflow-x: unset;
+        justify-content: center;
+        align-items: center;
+    }
+    #chartPeriodPreviewMobile {
+        display: block !important;
+        height: 300px;
+        width: 300px;
+        margin: 0 auto;
+    }
+    .card {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    .period-header {
+        margin-bottom: 15px;
+    }
+    .period-title {
+        font-size: 1.1rem;
+    }
+    .card-momento-desktop {
+        display: none !important;
+    }
+    .card-momento-mobile {
+        display: block !important;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        padding: 15px 10px 10px 10px;
+        width: 100%;
+        max-width: 100vw;
+    }
+}
+
+@media (min-width: 769px) {
+    #chartPeriodPreviewMobile {
+        display: none !important;
+    }
+    .card-momento-mobile {
+        display: none !important;
+    }
+} 
