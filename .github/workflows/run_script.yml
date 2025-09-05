@@ -33,4 +33,9 @@ jobs:
         git commit -m "Atualiza market-tracker.csv"
         git push
       env:
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASS: ${{ secrets.DB_PASS }}
+        DB_NAME: ${{ secrets.DB_NAME }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        

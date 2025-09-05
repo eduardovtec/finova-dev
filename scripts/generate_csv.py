@@ -1,15 +1,17 @@
 import mysql.connector
 import pandas as pd
+import os
 
-# Configurações do banco
+
 db_config = {
-    'host': 'DB_HOST',
-    'user': 'DB_USER',
-    'password': 'DB_PASS',
-    'database': 'DB_NAME',
+    'host': os.environ['DB_HOST'],
+    'user': os.environ['DB_USER'],
+    'password': os.environ['DB_PASS'],
+    'database': os.environ['DB_NAME'],
     'port': 3306
 }
 
+conn = mysql.connector.connect(**db_config)
 query = """
 SET @data_atual = 20250905;
 SET @data_anterior = DATE_SUB(@data_atual, INTERVAL 1 DAY);
