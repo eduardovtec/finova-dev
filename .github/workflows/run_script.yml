@@ -5,6 +5,9 @@ on:
     - cron: '*/10 * * * *'  # a cada 15 minutos
   workflow_dispatch:       # permite rodar manualmente
 
+permissions:
+  contents: write  
+
 jobs:
   update-csv:
     runs-on: ubuntu-latest
