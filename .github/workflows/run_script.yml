@@ -2,7 +2,7 @@ name: Market Tracker CSV
 
 on:
   schedule:
-    - cron: '*/10 * * * *'  # a cada 15 minutos
+    - cron: '*/5 * * * *'  # a cada 15 minutos
   workflow_dispatch:       # permite rodar manualmente
 
 permissions:
