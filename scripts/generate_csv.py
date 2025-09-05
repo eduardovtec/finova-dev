@@ -1,7 +1,6 @@
+import os
 import mysql.connector
 import pandas as pd
-import os
-
 
 db_config = {
     'host': os.environ['DB_HOST'],
@@ -12,10 +11,14 @@ db_config = {
 }
 
 conn = mysql.connector.connect(**db_config)
-query = """
-SET @data_atual = 20250905;
-SET @data_anterior = DATE_SUB(@data_atual, INTERVAL 1 DAY);
+cursor = conn.cursor(dictionary=True)
 
+# Executar SETs separadamente
+cursor.execute("SET @data_atual = 20250905;")
+cursor.execute("SET @data_anterior = DATE_SUB(@data_atual, INTERVAL 1 DAY);")
+
+# Executar query final
+query = """
 WITH total AS (
     SELECT * FROM b3.cotacoes WHERE data = @data_atual
 ),
@@ -87,7 +90,6 @@ med252 AS (
     ) final
     WHERE dia-media_252 > 0
 )
-
 SELECT 
     CAST(@data_atual AS DATE) AS 'Data',
     CAST(ROUND((SELECT COUNT(*) FROM med21)/(SELECT COUNT(*) FROM total), 2)*100 AS SIGNED) AS '21',
@@ -96,27 +98,11 @@ SELECT
     CAST(ROUND((SELECT COUNT(*) FROM med252)/(SELECT COUNT(*) FROM total), 2)*100 AS SIGNED) AS '252';
 """
 
-# Conectando ao MySQL
-conn = mysql.connector.connect(**db_config)
-cursor = conn.cursor(dictionary=True)
-
-# Executar múltiplas statements
-for result in cursor.execute(query, multi=True):
-    pass  # garante que todas as queries SET e WITH sejam processadas
-
-# Executar a query final e obter o resultado
-cursor.execute("""
-SELECT 
-    CAST(@data_atual AS DATE) AS 'Data',
-    CAST(ROUND((SELECT COUNT(*) FROM med21)/(SELECT COUNT(*) FROM total), 2)*100 AS SIGNED) AS '21',
-    CAST(ROUND((SELECT COUNT(*) FROM med62)/(SELECT COUNT(*) FROM total), 2)*100 AS SIGNED) AS '62',
-    CAST(ROUND((SELECT COUNT(*) FROM med125)/(SELECT COUNT(*) FROM total), 2)*100 AS SIGNED) AS '125',
-    CAST(ROUND((SELECT COUNT(*) FROM med252)/(SELECT COUNT(*) FROM total), 2)*100 AS SIGNED) AS '252';
-""")
+cursor.execute(query)
 rows = cursor.fetchall()
 conn.close()
 
-# Salvar em CSV
+# Salvar CSV
 df = pd.DataFrame(rows)
 df.to_csv("data/market-tracker.csv", index=False)
 print("CSV gerado com sucesso!")
